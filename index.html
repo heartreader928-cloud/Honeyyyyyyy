@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Do You Love Me?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+
+/* Body */
+body{
+height:100vh;
+width:100%;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fcb69f);
+position:relative;
+}
+
+/* PAGE 1 */
+#page1{
+position:absolute;top:0;left:0;width:100%;height:100%;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+text-align:center;
+color:white;
+padding:10px;
+}
+
+h1{
+font-size:3rem; /* Bada text phone pe */
+margin-bottom:40px;
+}
+
+button{
+padding:18px 40px;
+font-size:1.5rem;
+border:none;
+border-radius:35px;
+cursor:pointer;
+transition:transform 0.2s ease;
+margin:20px;
+}
+
+#yesBtn{background:#ff4d6d;color:white;}
+#noBtn{background:#555;color:white;}
+
+/* LOADING */
+#loading{
+display:none;
+position:absolute;top:0;left:0;width:100%;height:100%;
+background:linear-gradient(135deg,#fad0c4,#ffd1ff,#ffafbd);
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:white;
+}
+
+.loader{
+width:70px;height:70px;
+border:6px solid #ffffff55;
+border-top:6px solid #ff4d6d;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin-bottom:25px;
+}
+
+.teddy{font-size:70px;margin-bottom:25px;}
+
+/* FINAL PAGE */
+#final{
+display:none;
+position:absolute;top:0;left:0;width:100%;height:100%;
+background:linear-gradient(135deg,#fad0c4,#ffd1ff,#ffafbd);
+overflow:hidden;
+padding-top:50px;
+text-align:center;
+color:white;
+}
+
+/* Hearts & Stars */
+.heart,.star{
+position:absolute;
+font-size:28px; /* Thoda bada mobile ke liye */
+animation:float 5s linear infinite;
+}
+.heart{color:#ff4d6d;}
+.star{color:#fffacd;}
+
+/* Animations */
+@keyframes float{
+0%{transform:translateY(0) scale(1);opacity:1}
+50%{transform:translateY(-150px) scale(1.4);opacity:0.7}
+100%{transform:translateY(-300px) scale(1);opacity:0}
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1">
+<h1>Do you love me? 💖</h1>
+<div style="display:flex; flex-direction:row; justify-content:center; width:100%;">
+<button id="yesBtn">Yes</button>
+<button id="noBtn">No</button>
+</div>
+</div>
+
+<!-- LOADING PAGE -->
+<div id="loading">
+<div class="teddy">🧸</div>
+<h2>Loading love 💕</h2>
+<div class="loader"></div>
+</div>
+
+<!-- FINAL PAGE -->
+<div id="final">
+<h1 style="font-size:3rem;">I love you too 💖</h1>
+<p style="font-size:1.5rem;">Forever & Always ❤️</p>
+</div>
+
+<script>
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const page1=document.getElementById("page1");
+const loading=document.getElementById("loading");
+const finalPage=document.getElementById("final");
+
+// YES button scale (fast)
+let scale=1;
+const scaleStep=1.2; // ek click me bada 1.2 times ~ 1cm
+
+// No button click → Yes button bada ho jaye
+noBtn.addEventListener('click', ()=>{
+scale*=scaleStep;
+yesBtn.style.transform=`scale(${scale})`;
+});
+
+// Hearts & stars
+function createDecoration(){
+const type=Math.random()<0.5?'heart':'star';
+const deco=document.createElement("div");
+deco.className=type;
+deco.innerText=type==='heart'?'❤️':'⭐';
+deco.style.left=Math.random()*100+"vw";
+deco.style.bottom="0px";
+deco.style.fontSize=(22+Math.random()*20)+"px";
+document.body.appendChild(deco);
+setTimeout(()=>deco.remove(),5000);
+}
+
+// Yes click → loading → final page
+yesBtn.addEventListener('click', ()=>{
+page1.style.display="none";
+loading.style.display="flex";
+
+setTimeout(()=>{
+loading.style.display="none";
+finalPage.style.display="block";
+
+// Floating hearts & stars
+setInterval(createDecoration,300);
+},5000);
+});
+</script>
+</body>
+</html>
